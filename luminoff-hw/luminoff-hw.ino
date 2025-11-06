@@ -1,8 +1,9 @@
 //======================================================
 //                 INITIAL SETUP
 //======================================================
-#include <U8g2lib.h>
 #include <Wire.h>
+#include <WiFi.h>
+#include <U8g2lib.h>
 
 int width = 72;
 int height = 40;
@@ -23,6 +24,17 @@ void setup(){
   u8g2.setContrast(255); // set contrast to maximum 
   u8g2.setBusClock(400000); //400kHz I2C 
   u8g2.setFont(u8g2_font_ncenB08_tr);
+  
+  delay(1000);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    oledPrint(Msg{5,23,"Wifi: ..."});
+  }
+
+  oledPrint(Msg{5,23, "Wifi: OK"});
+  delay(1500);
 }
 //======================================================
 //               CONSTANT EXECUTION

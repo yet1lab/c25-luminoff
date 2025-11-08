@@ -21,7 +21,7 @@ String getTime() {
 
     if (httpOK) error = deserializeJson(doc, payload);
     if (!error) output = doc["datetime"].as<String>();
-    if (output.length() >= 10) return output.substring(11, 16);
+    if (output.length() >= 16) return output.substring(11, 16) + "_" + doc["day_of_week"].as<String>();
 
     http.end();
     delay(1000);

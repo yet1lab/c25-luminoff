@@ -3,15 +3,16 @@
 //======================================================
 String getTime() {
   bool httpOK;
+  int attempt = 1;
   HTTPClient http;
   String output = "";
   DeserializationError error;
   StaticJsonDocument<1024> doc;
 
-  for (int attempt = 0; attempt < 8; attempt++) {
+  while (output.length() < 16){
     oledPrint(
       Msg{5,18, "Get Time"},
-      Msg{5,30, "Attempt: " + String(attempt + 1)}
+      Msg{5,30, "Attempt: " + String(attempt++)}
     );
     http.begin("http://worldtimeapi.org/api/timezone/America/Recife");
     
@@ -21,10 +22,9 @@ String getTime() {
 
     if (httpOK) error = deserializeJson(doc, payload);
     if (!error) output = doc["datetime"].as<String>();
-    if (output.length() >= 16) return output.substring(11, 16) + "_" + doc["day_of_week"].as<String>();
 
     http.end();
     delay(1000);
   }
-  return output;
+  return output.substring(11, 16) + "_" + doc["day_of_week"].as<int>();
 }

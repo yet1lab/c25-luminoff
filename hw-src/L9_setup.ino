@@ -16,4 +16,5 @@ void setup(){
   oledPrint(Msg{5,23,"Wifi: OK"});
   delay(1500);
   ClockTime::sync();
+  TurnOff::get();
 }

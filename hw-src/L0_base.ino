@@ -20,7 +20,7 @@ constexpr const char* OFFstr[] = {
   "16h00","17h00","18h00","19h00","19h20","20h10","21h00","21h50"
 };
 
-arr<int, 16> makeOFFmin() {
+arr<int, 16> mkOFFmin() {
   arr<int, 16> out;
   std::transform(OFFstr, OFFstr + 16, out.begin(), [](const char* s){
     int hour = String(s).substring(0,2).toInt();
@@ -29,5 +29,3 @@ arr<int, 16> makeOFFmin() {
   });
   return out;
 }
-
-arr<int, 16> OFFmin = makeOFFmin();

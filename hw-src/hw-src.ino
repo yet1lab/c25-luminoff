@@ -1,26 +1,35 @@
 //======================================================
 //                 INITIAL SETUP
 //======================================================
+#include <array>
+#include <vector>
 #include <Wire.h>
 #include <WiFi.h>
 #include <U8g2lib.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-String hour;
-int width = 72;
-int height = 40;
-int xOffset = 28;
-int yOffset = 24;
+#define gent_t template<typename T>
+#define gents_t template<typename... Ts>
+#define genkv_t template<typename K, typename V>
+#define gentn_t template<typename T, std::size_t N >
 
-const char* ssid = "luminoff";      // seu SSID (PARA TESTES)
-const char* password = "luminoff";  // sua senha (PARA TESTES)
+using str_t = String;
+using i32_t = std::int32_t;
+using u32_t = std::uint32_t;
+
+gent_t using vec = std::vector<T>;
+gentn_t using arr = std::array<T, N>;
+genkv_t using dic = std::unordered_map<K, V>;
+//=======================================================
+//                   CUSTOM TYPES
+//=======================================================
 struct Msg {
   int x, y;
   String txt;
-};  // Struct
+};
 
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE, 6, 5);
-constexpr const char* DAYS[] = {
-  "Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+struct ClkData {
+  int hour, min;
+  String day;
 };

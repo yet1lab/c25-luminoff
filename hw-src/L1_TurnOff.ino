@@ -1,6 +1,9 @@
+//======================================================
+//               STATIC TURN-OFF CLASS
+//======================================================
 class TurnOff {
 private:
-  inline static int idx;
+  inline static int idx = 0;
   inline static arr<bool, 16> BITS;
   inline static arr<int, 16> OFFmin = mkOFFmin(); //
 
@@ -17,7 +20,6 @@ public:
     idx = it - OFFmin.begin();
     if(idx >= OFFmin.size()) idx = 0;
   }
-
 
   static int min()   { return OFFmin[idx]; }
   static str_t str() { return OFFstr[idx] + String(BITS[idx] ? "x" : " "); }

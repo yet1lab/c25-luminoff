@@ -1,6 +1,10 @@
 //=======================================================
 //                  CONTROL VARIABLES
 //=======================================================
+#define CLASS 4
+#define RELAY 3 //
+#define BUTTON 20 // RX
+
 int width = 72;
 int height = 40;
 int xOffset = 28;
@@ -10,9 +14,13 @@ const char* ssid = "luminoff";      // seu SSID (PARA TESTES)
 const char* password = "luminoff";  // sua senha (PARA TESTES)
 
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE, 6, 5);
+
+volatile bool btnLocked = false;
+esp_timer_handle_t offTimer, unlockTimer;
+volatile BTN_STATE btnState = Short_Release;
 //=======================================================
 constexpr const char* DAYS[] = {
-  "Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+  "sun","mon", "tue", "wed", "thu", "fri", "sat"
 };
 
 constexpr const char* OFFstr[] = {

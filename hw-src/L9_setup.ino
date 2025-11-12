@@ -1,7 +1,16 @@
 //======================================================
 //                 CONFIGURATIONS
 //======================================================
-void setup(){
+void setup() {
+  pinMode(RELAY, OUTPUT);
+  pinMode(BUTTON, INPUT_PULLUP);
+  if (digitalRead(BUTTON) == 0) btnState = Long_Press;
+
+  esp_timer_create(&offTimer_args, &offTimer);
+  esp_timer_create(&unlockTimer_args, &unlockTimer);
+  attachInterrupt(digitalPinToInterrupt(BUTTON), btnMachine, CHANGE);
+
+//=========================================
   u8g2.begin();
   u8g2.setContrast(255); // set contrast to maximum 
   u8g2.setBusClock(400000); //400kHz I2C 

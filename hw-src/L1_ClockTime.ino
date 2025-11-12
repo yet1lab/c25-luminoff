@@ -1,3 +1,6 @@
+//======================================================
+//             STATIC CLOCK TIME CLASS
+//======================================================
 class ClockTime {
 private:
   inline static str_t timeAPI = "";

@@ -3,9 +3,11 @@
 //======================================================
 #include <array>
 #include <vector>
+#include <time.h>
 #include <Wire.h>
 #include <WiFi.h>
 #include <U8g2lib.h>
+#include "esp_timer.h"
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
@@ -32,4 +34,10 @@ struct Msg {
 struct ClkData {
   int hour, min;
   String day;
+};
+enum BTN_STATE {
+  Long_Press,
+  Short_Press,
+  Long_Release,
+  Short_Release
 };

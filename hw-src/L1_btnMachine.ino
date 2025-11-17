@@ -1,5 +1,5 @@
 //======================================================
-//               BUTTON STATE MACHINE
+//             BUTTON STATES AND TASKS
 //======================================================
 enum BTN_STATE {
   Long_Press, Short_Press,
@@ -8,6 +8,17 @@ enum BTN_STATE {
 
 volatile bool btnLocked = false;
 volatile BTN_STATE btnState = Short_Release;
+//======================================================
+Task pressTask([](void* arg) {
+  btnState = Long_Press;
+  digitalWrite(RELAY, LOW);
+});
+
+Task unlockTask([](void* arg){
+  btnLocked = false;
+});
+//======================================================
+//               BUTTON STATE MACHINE
 //======================================================
 void IRAM_ATTR btnMachine() {
   if (btnLocked) return;
@@ -24,19 +35,19 @@ void IRAM_ATTR btnMachine() {
 // MACHINE STATE EXECUTION
   switch (btnState) {
     case Short_Press:
-      esp_timer_start_once(unlockTimer, 500); // 500 us
-      esp_timer_start_once(pressTimer, 1000000); // 1 sec
+      unlockTask.runIn(500); // 500 us
+      pressTask.runIn(1000000); // 1 sec
       break;
 
     case Short_Release:
-      esp_timer_stop(pressTimer);
+      pressTask.stop();
       digitalWrite(RELAY, HIGH);
-      esp_timer_start_once(unlockTimer, 50000); // 50 ms
+      unlockTask.runIn(50000); // 50 ms
       break;
 
     case Long_Release:
-      esp_timer_stop(pressTimer);
-      esp_timer_start_once(unlockTimer, 50000); // 50 ms
+      pressTask.stop();
+      unlockTask.runIn(50000); // 50 ms
       break;
   }
 }

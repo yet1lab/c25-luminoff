@@ -1,6 +1,7 @@
 //======================================================
 //                 INITIAL SETUP
 //======================================================
+#include <set>
 #include <array>
 #include <vector>
 #include <time.h>
@@ -17,6 +18,7 @@ using str_t = String;
 using i32_t = std::int32_t;
 using u32_t = std::uint32_t;
 
+gent_t using set = std::set<T>;
 gent_t using vec = std::vector<T>;
 gentn_t using arr = std::array<T, N>;
 genkv_t using dic = std::unordered_map<K, V>;

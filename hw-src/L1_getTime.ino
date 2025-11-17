@@ -1,6 +1,10 @@
 //======================================================
 //                   TIME FUNCIONS
 //======================================================
+/*
+#include <HTTPClient.h>
+#include <ArduinoJson.h>
+
 String getTime() {
   bool httpOK;
   int attempt = 1;
@@ -11,10 +15,11 @@ String getTime() {
 
   while (output.length() < 16){
     oledPrint(
-      Msg{5,18, "Get Time"},
+      Msg{5,18, "Get Time..."},
       Msg{5,30, "Attempt: " + String(attempt++)}
-    );
-    http.begin("http://worldtimeapi.org/api/timezone/America/Recife");
+    );         
+    String DAY = "mon";
+    http.begin("http://yet1lab.com/api-exemple/" + DAY + "/" + String(CLASS) + ".txt");
     
     http.setTimeout(2000);
     httpOK = http.GET() == HTTP_CODE_OK;
@@ -28,3 +33,4 @@ String getTime() {
   }
   return output.substring(11, 16) + "_" + doc["day_of_week"].as<int>();
 }
+*/

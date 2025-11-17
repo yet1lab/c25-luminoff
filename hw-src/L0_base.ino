@@ -2,38 +2,12 @@
 //                  CONTROL VARIABLES
 //=======================================================
 #define CLASS 4
-#define RELAY 3 //
+#define RELAY 10 //
 #define BUTTON 20 // RX
 
-int width = 72;
-int height = 40;
-int xOffset = 28;
-int yOffset = 24;
+esp_timer_handle_t pressTimer, unlockTimer;
 
-const char* ssid = "luminoff";      // seu SSID (PARA TESTES)
-const char* password = "luminoff";  // sua senha (PARA TESTES)
-
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE, 6, 5);
-
-volatile bool btnLocked = false;
-esp_timer_handle_t offTimer, unlockTimer;
-volatile BTN_STATE btnState = Short_Release;
 //=======================================================
-constexpr const char* DAYS[] = {
+char* DAYS[] = {
   "sun","mon", "tue", "wed", "thu", "fri", "sat"
 };
-
-constexpr const char* OFFstr[] = {
-  "08h00","09h00","10h00","11h00","12h00","13h00","14h00","15h00",
-  "16h00","17h00","18h00","19h00","19h20","20h10","21h00","21h50"
-};
-
-arr<int, 16> mkOFFmin() {
-  arr<int, 16> out;
-  std::transform(OFFstr, OFFstr + 16, out.begin(), [](const char* s){
-    int hour = String(s).substring(0,2).toInt();
-    int min = String(s).substring(3,5).toInt();
-    return hour*60 + min;
-  });
-  return out;
-}

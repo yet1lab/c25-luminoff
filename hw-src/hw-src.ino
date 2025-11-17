@@ -6,10 +6,7 @@
 #include <time.h>
 #include <Wire.h>
 #include <WiFi.h>
-#include <U8g2lib.h>
 #include "esp_timer.h"
-#include <HTTPClient.h>
-#include <ArduinoJson.h>
 
 #define gent_t template<typename T>
 #define gents_t template<typename... Ts>
@@ -23,21 +20,3 @@ using u32_t = std::uint32_t;
 gent_t using vec = std::vector<T>;
 gentn_t using arr = std::array<T, N>;
 genkv_t using dic = std::unordered_map<K, V>;
-//=======================================================
-//                   CUSTOM TYPES
-//=======================================================
-struct Msg {
-  int x, y;
-  String txt;
-};
-
-struct ClkData {
-  int hour, min;
-  String day;
-};
-enum BTN_STATE {
-  Long_Press,
-  Short_Press,
-  Long_Release,
-  Short_Release
-};

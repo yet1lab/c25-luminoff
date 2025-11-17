@@ -1,6 +1,14 @@
 //======================================================
 //               BUTTON STATE MACHINE
 //======================================================
+enum BTN_STATE {
+  Long_Press, Short_Press,
+  Long_Release, Short_Release
+};
+
+volatile bool btnLocked = false;
+volatile BTN_STATE btnState = Short_Release;
+//======================================================
 void IRAM_ATTR btnMachine() {
   if (btnLocked) return;
   btnLocked = true;
@@ -16,18 +24,18 @@ void IRAM_ATTR btnMachine() {
 // MACHINE STATE EXECUTION
   switch (btnState) {
     case Short_Press:
-      esp_timer_start_once(offTimer, 1000000); // 1 sec
       esp_timer_start_once(unlockTimer, 500); // 500 us
+      esp_timer_start_once(pressTimer, 1000000); // 1 sec
       break;
 
     case Short_Release:
-      esp_timer_stop(offTimer);
+      esp_timer_stop(pressTimer);
       digitalWrite(RELAY, HIGH);
       esp_timer_start_once(unlockTimer, 50000); // 50 ms
       break;
 
     case Long_Release:
-      esp_timer_stop(offTimer);
+      esp_timer_stop(pressTimer);
       esp_timer_start_once(unlockTimer, 50000); // 50 ms
       break;
   }

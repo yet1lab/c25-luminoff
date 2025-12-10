@@ -18,24 +18,30 @@ Task oledTask([](void* arg){
 //======================================================
 void setup() {
   setCpuFrequencyMhz(160);
+  u8g2.begin();
+  u8g2.setContrast(255); // set contrast to maximum 
+  u8g2.setBusClock(1000000); //1 MHz I2C 
+  u8g2.setFont(u8g2_font_ncenB08_tr);
+  delay(1000);
+
   pinMode(RELAY, OUTPUT);
+  pinMode(R_LED, OUTPUT);
+  pinMode(B_LED, OUTPUT);
   pinMode(BUTTON, INPUT_PULLUP);
   if (digitalRead(BUTTON) == 0) btnState = Long_Press;
 
   Task::setup();
   attachInterrupt(digitalPinToInterrupt(BUTTON), btnMachine, CHANGE);
-//=========================================
-  u8g2.begin();
-  u8g2.setContrast(255); // set contrast to maximum 
-  u8g2.setBusClock(1000000); //1 MHz I2C 
-  u8g2.setFont(u8g2_font_ncenB08_tr);
-  
-  delay(1000);
+//========================================= 
+  // ledMachineTask.loopIn(100000); // 100ms
+
   Connection::getWifi("luminoff", "luminoff");
   Connection::getRTC(-3, "pool.ntp.org");
   TurnOff::update();
-
-  oledTask.loopIn(50000); // 50ms
+ 
+  oledTask.loopIn(500000); // 200ms
 }
 
-void loop(){ }
+void loop(){
+
+}

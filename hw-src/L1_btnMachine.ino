@@ -9,6 +9,8 @@ enum BTN_STATE {
 volatile bool btnLocked = false;
 volatile BTN_STATE btnState = Short_Release;
 //======================================================
+//                   ASYNC TASKS
+//======================================================
 Task pressTask([](void* arg) {
   btnState = Long_Press;
   digitalWrite(RELAY, LOW);

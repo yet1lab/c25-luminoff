@@ -19,6 +19,7 @@ public:
     Task::TASKS.insert(this);
   }
 
+  void run()                      { args.callback(args.arg); }
   void runIn(uint64_t delay_us)   { esp_timer_start_once(timer, delay_us); }
   void loopIn(uint64_t period_us) { esp_timer_start_periodic(timer, period_us); }
   void stop()                     { esp_timer_stop(timer); }

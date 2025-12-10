@@ -18,7 +18,6 @@ Task lockLedTask([](void* arg){
 Task ledMachineTask([](void* arg){
 // MACHINE STATE TRANSITION
   switch (ledState) {
-    case OFF:  ledState = RED  ; break;
     case RED:  ledState = BLUE ; break;
     case BLUE: ledState = RED  ; break;
     case LOCK: ledState = OFF  ; break;

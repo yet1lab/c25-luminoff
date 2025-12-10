@@ -13,6 +13,9 @@ Task oledTask([](void* arg){
     Msg{4, 23, used.str(1, "Fake: %Hh%M") },
     Msg{4, 35, TurnOff::str() }
   );
+  
+  ledState = TurnOff::less_15min(used) ? RED : OFF;
+  if (TurnOff::offTime(used)) { digitalWrite(RELAY, LOW); }
 });
 
 //======================================================
@@ -24,10 +27,13 @@ void setup() {
   u8g2.setFont(u8g2_font_ncenB08_tr);
   delay(1000);
 
-  pinMode(RELAY, OUTPUT);
   pinMode(R_LED, OUTPUT);
+  pinMode(G_LED, OUTPUT);
   pinMode(B_LED, OUTPUT);
+
+  pinMode(RELAY, OUTPUT);
   pinMode(BUTTON, INPUT_PULLUP);
+  digitalWrite(G_LED, LOW);
   if (digitalRead(BUTTON) == 0) btnState = Long_Press;
 
   Task::setup();
@@ -38,8 +44,10 @@ void setup() {
   Connection::getWifi("luminoff", "luminoff");
   Connection::getRTC(-3, "pool.ntp.org");
   TurnOff::update();
- 
-  oledTask.loopIn(500000); // 200ms
+
+  used.addsec(60*60*21 + 60*30); // add hours to correct
+  ledMachineTask.loopIn(200000); // 200 ms 
+  oledTask.loopIn(500000);       // 500 ms
 }
 
 void loop(){

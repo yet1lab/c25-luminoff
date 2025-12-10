@@ -29,4 +29,11 @@ public:
     OFFS[idx].buffer[0][10] = BITS[idx] ? 'x' : ' ';
     return OFFS[idx].str(0);
   }
+
+  static bool less_15min(const Time& actTime) {
+    return BITS[idx] && (OFFS[idx].daymin - actTime.daymin) < 15;
+  }
+  static bool offTime(const Time& actTime) {
+    return BITS[idx] && (OFFS[idx].daymin - actTime.daymin) < 2;
+  }
 };
